@@ -1,0 +1,647 @@
+1. unset()函数释放指定的变量。
+	isset()函数检测变量是否设置和使用。
+	empty()函数检查一个变量是否为空。
+
+2.引用赋值 $var =&$var1;
+3. var_dump()和print_r()函数可以输出变量类型和值
+4.php不能处理单引号中的变量名，但可以认识双引号中的变量名。可以使用${var}或者{$var}的形式。
+5.定界符 <<<   $string = <<< EOT
+EOT; //最后的标识符不能缩进;不能用定界符初始化类成员；
+6.数组是 arr(key1 => value1, key2 => value2);
+	使用print_r($arr);来查看数组里面的所有东西。
+7.资源类型
+	fopen("info.txt","w")函数打开文件，
+	opendir("c:\\windows\\fonts")函数打开文件目录，
+	mysql_connect("localhose","root","123456")函数链接本机的MySQL管理系统，
+	imagecreate($width,$height)函数创建画板
+	xml_parser_create()函数返回xml解析器资源
+8.伪类型
+	mixed:说明一个参数可以接受多种不同的。
+	number: 说明一个参数可以是integer或者float;
+	callback: 用函数名字符串来传递函数，可以传递任何函数除了array(),echo(),empty(),eval(),exit(),isset(),list(),print(),unset();
+9.类型转换：intval()返回变量的整数值，floatval()返回变量的浮点值，strval()返回变量的字符串值，
+		setType($val,type)可以转换变量本身的类型；
+10.常量：通过define()函数声明常量(函数的参数中[]里面的参数表示是可选的)
+	boolean define(string name,mixed value[,bool case_insensitive]); //name的名字不能含$；case_insensitive值为true，则常数将会定义成不区分大小写。
+.为php中的字符串连接符号。	
+11.php特殊运算符
+	`` 反引号是执行运算符与函数shell_exec()相同，将参数当做操作系统命令来执行。@错误控制运算符，能够忽略表达式可能产生的任何错误信息。
+	=> 数组下标指定符号。 —>对象成员访问符号。instanceof 类型运算符  对象 instanceof 类名。
+12.exit()函数直接退出脚本，die()函数直接退出脚本并输出错误消息。
+13.函数中若要使用全局变量，必须利用gloabl关键字定义目标变量。或者使用$GLOBALS数组通过$GLOBALS[var]访问全局变量$var.
+14.phpinfo()和get_loaded_extensions()函数可以得知PHP加载了哪些扩展库。
+	func_get_args(),它将所有传递给脚本函数的参数当做一个数组返回。
+	func_num_args()函数返回参数的总数，func_get_arg()函数接受一个数字参数，返回指定的参数。
+	函数在以参数调用或者赋值给其他的变量时候，需要用引号引起来。
+	require()文件只处理一次通常放在程序的最前面，include()文件可以多次处理，可以放在程序的流程控制处理区段中
+	require_once(),include_once()用来加载只能加载一次的文件，
+	count()可以用来计算数组的长度。
+15.foreach遍历数组
+foreach(array as $value){}
+foreach(array as $key => $value){}
+16.预定义数组(超全局数组)
+* $_GET //经由URL请求提交至脚本的变量 
+* $_POST //经由HTTP POST 方法提交到脚本的变量 
+* $_REQUEST //经由GET , POST和COOKIE机制提交 到脚本的变量(该数组并不值得信任) 
+* $_FILES //经由http post方法文件上传而提交至脚本的变量 
+* $_COOKIE //经由http cookies方法提交至脚本的变量
+* $_SESSION  //当前注册给脚本的会话变量
+* $_ENV //执行环境提交至脚本的变量 
+* $_SERVER //变量由WEB服务器设定的，或直接和当前脚本的执行环境相关联 
+* $GLOBALS //只要是当前脚本有效的变量都在这里，数组的键名为全局脚本的名称 
+17.构造方法的名字必须为"_construct"
+	析构方法的名字必须为"_destruct".
+	魔术方法有__set(),__get(),__isset(),__unset(),__construct(),__destruct(),__tostring().__clone(),__call()可以用private修饰。
+	void _set(string name,mixed value);可以在程序的运行过程中为私有属性设置值。
+	_get(string name);访问私有属性
+18.在子类中调用父类的方法是 parent::方法名。
+	子类中重写的方法的访问权限不能低于父类被覆盖的方法的访问权限。(private<protected<public)
+	final关键字加在类或类中方法前，不能使用final标识成员属性，
+		使用final标识的类，不能被继承。
+		在类最后使用final标识的成员方法，在子类中不能被覆盖。
+	static 唯一存在的属于整个类的
+	类名::静态成员属性名(在类的外部和成员方法中都可以使用这种方式访问)
+	类名::静态成员方法名();
+	在静态成员方法中，使用关键字self来访问其他的静态成员,静态方法中只能访问静态成员。
+		self::静态成员属性名
+		self::静态成员方法名();
+	const关键字将成员属性标识为常量,访问方式和静态成员一样用过类名或者成员方法中使用self关键字访问,const常量前面不能使用$且通常要大写
+	聚合：对象a消亡，对象b还在，组合：对象a消亡，对象b消亡
+19.对象的克隆 $v = clone $v1; 可用通过魔术方法_clone()来为克隆时为成员属性赋初值;	
+	_toString()，echo方法调用时会对对象使用toString()方法。
+	_call()，在调用对象中不错在的方法是就会自动调用该方法，_call()方法接受两个参数，第一个参数是调用不存在的方法是接受这个方法名称字符创；
+		参数列表则以数组的形式传到_call()方法的第二个参数中。
+	_autoload(),自动加载类，当使用php中没有组织的类时，通过_autoload()的全局函数自动加载类。
+20.字符创输出函数
+	rawurllencode(),对url里面的特殊字符转义，htmlentities()对html里面的特殊元素转义输出
+	echo(),输出字符串
+	print(),输出一个或多个字符串,成功返回1，失败返回0.
+	die(),输出一条消息，并退出当前脚本。如果参数是一个字符串，则该函数会在推出前输出它。如果参数是一个整数，这个值会被用作退出装在。退出状态的值在0到254质检。
+		退出状态255有PHP保留，不会被使用。状态0用于成功地终止程序。
+	printf(),输出格式化字符串
+	sprintf(),把格式化的字符串写入一个变量中
+常用字符串格式化函数
+	ltrim()，rtrim(),trim(),从字符串左侧删除空格或者其他预定义字符.trim(str[,charlist]) 可以使用..指定范围,例如0..9,
+	str_pad()把字符串填充为新的长度。str_pad(string input,int pad_length[,string pad_string[,ing pad_type]])
+		第一个参数是要处理的字符串，第二个参数是给定处理的字符串长度，如果该值小于原始字符串长度，则不进行任何操作。
+		第三个参数指定填补时所用的字符串，它为可选参数，如果没有指定则默认使用空格填补，最后一个是填补方向，有三个可选值：
+		STR_PAD_BOTH、STR_PAD_LEFT和STR_PAD_RIGHT,默认为STR_PAD_RIGHT.
+	strtolower(),strtoupper()，转换字符串的大小写
+	ucfirst(),ucwords(),把字符串的首字符(每个单词的首字符)转换成大写
+	nl2br()在字符串的每个新行之前插入HTML换行符
+	htmllentities()把字符转换为HTML实体
+	htmlspecialchars()把一些预定义的字符转换为html实体
+	stripslashes()删除有addcslashes函数添加的反斜杠
+	strip_tags()剥去HTML、xml以及php的标签
+	number_fotmat()通过千分位分组来格式化数字
+	strrev()反转字符串
+	md5()将一个字符创进行MD5计算
+	strlen()返回字符串的长度
+21.php正则
+	preg_match()，正则表达式匹配
+	preg_match_all(strting pattern,string subject,array matched[,int flags]),全局正则表达式匹配
+		江所有可能的匹配结果放在第三个参数的数组中，并返回整个模式匹配的次数，如果出错则返回false,如果使用了第四个参数，
+		会根据它指定的顺序将每次出现的匹配结果保存到第三个参数的数组中。第四个参数flags有两个预定义的值
+		PREG_PATTERN_ORDER:它是preg_match_all()函数的默认值，对结果排序使$matches[0]为全部模式匹配的数组，$matches[1]为第一个括号
+			中的子模式所匹配的字符串组成的数组，以此类推。
+		PREG_SET_ORDER:对结果排序使$matches[0]为第一粗匹配项的数组，$matches[1]为第二组匹配项的数组，以此类推。
+	preg_replace() 正则表达式的搜索和替换
+	preg_split() 用正则表达式分割字符串
+	preg_grep(string pattern,array input) 返回与模式匹配的数组单元,对输入数组input中的每个元素，只进行一次匹配。
+	preg_replace_callback() 用回调函数执行正则表达式的搜索和替换
+	preg_replace(mixed pattern,mixed replacement,mixed subject[,int limit])该函数在subject中搜索pattern并替换为replacement。如果指定了第四个
+		可选参数limit,则仅替换limit个匹配，如果省略limit或者其值为-1,则所有的选项会被替换。replacement中使用\${n}用来代表匹配的第n个选项。
+		此函数专有模式e，将会对replacement作为PHP代码求值。
+	array preg_split(string pattern,string subject[,int limit[,int flags]]),若果指定第三个可选参数limit，则最多返回limit个子串，而其中最后一个元素包含了subject
+		中剩余的所有部分。如果limit是-1，则意味着没有限制。还可以继续指定第四个可选参数flags，其中flags可以是下列标记的任意组合用 | 组合
+		PREG_SPILT_NO_EMPTY:如果设定了本标记，则preg_split()只返回非空的成分。
+		PREG_SPLIT_DELIM_CAPTURE:如果设定了本标记，定界符模式中的括号表达式也会被捕获并返回
+		PREG_SPLIT_OFFSET_CAPTURE: 若果设定了本标记，对每个出现的匹配结果同时返回其附属的字符串偏移量，其结果第一项为匹配字符换的数组，第二项为其在subject中的偏移量的数组。
+		
+模式修正符
+	i 不区分大小写
+	m 将字符串视为多行
+	s 此模式中圆点元字符.匹配所有的字符，包括换行符。即将字符串视为单行。
+	x 模式中的空白忽略不计，除非它已经被转义
+	e 只用在preg_replace()函数中，在替换字符串中对逆向引用做正常的替换，将其作为PHP代码求值，并用其结果替换换所搜索的字符串。
+字符串处理函数
+	strstr()搜索一个字符串在另一个字符串中的第一次出现，该函数返回字符串的其余部分(从匹配点)。如果未找到所搜索的字符串，则返回false.
+	strpos()返回字符串在另一个字符串中第一次出现的位置，如果没有找到该字符串，则返回false.
+	strrpos()查找字符串在另一个字符串中的最后一次出现的位置。
+	substr()函数substr则可以返回字符串的一部分。
+	str_replace(mixed search,mixed replace,mixed subject[,int &count])第四个函数是变量的引用，用来保存替换的次数,
+		此函数第一个参数和第二个参数使用数组来进行匹配替换。
+	str_ireplace()，与str_replace()函数的用法相同，都返回替换后的字符串，不过它不区分大小写.
+	array explode(string separator,string string[,int limit]),如果separator为空字符串(""),explode()将返回false,如果separator所包含的值在string中找不到，那么explode()将返回包含string单个元素的数组。
+	implode(string glue,array pieces)函数把数组中的所有元素组合为一个字符串，函数join为该函数的别名。
+22.文件
+	php中用filetype()函数获取文件的类型，一种有七种，block,char,dir,fifo,file,link,unknow.
+	is_file()函数判断一个文件名是否为一个正常的文件
+	is_dir()函数判断一个文件时候为一个目录
+	is_link()函数判断给定文件名是否为一个符号链接。
+	file_exists()检查文件或目录是否存在
+	filesize(),取得文件大小，但会文件大小的字节数，出错返回false.
+	is_readable(),判断给定文件名是否可读，如果文件存在且可读则返回true.
+	is_writable(),判断给定文件名是否可写，如果文件存在且可读写则返回true.
+	is_executable(),判断给定文件名是否可执行，如果文件存在且可执行则返回true.
+	filectime(),获取文件的创建时间，返回unix时间戳格式。
+	filemtime(),获取文件的修改时间
+	fileatime(),获取文件的额访问时间
+	stat(),获取文件大部分属性值，返回关于给定文件有用信息的数组
+	fstat(),函数需要一个资源句柄
+	clearstatcache()用来清除被PHP缓存的文件信息。
+文件目录
+	$unixPath = "/var/www/html/index.php"; 在UNIX系统中绝对路径，必须使用"/"作为路径分隔符
+	$winPath ="c:\\Appserv\\www\\index.php"; 在Windows的绝对路径，默认使用"\"作为路径分隔符
+	$winPath = "c:/Appserv/www/index.php"; 在windows系统中也接受"/"作为路径分隔符，推荐使用
+	php内置常量DIRECTORY_SEPARATOR它的值为当前操作系统的默认文件
+	string basename(string path[,string suffix]);该函数返回基本的文件名。第二个参数规定文件的扩展名。如果提供了则不会输出这个扩展名。
+	dirname(),返货去掉文件名后的目录名
+	pathinfo(),返回一个关联数组，其中包括制定路径中的目录名、基本名和扩展名三个部分，分别通过数组键dirname、basename和extension来引用.
+	opendir(),用于打开指定目录，接受一个目录的路径以及目录名作为参数，函数返回值为可供其他目录函数使用的目录句柄。如果该目录不存在或者没有访问权限，则返回false.
+	readdir(),用于读取指定目录，接受已经用opendir()函数打开的可操作目录句柄作为参数，含糊返回当前目录指针位置的一个文件名，并将目录指正向后移动一位，
+		当指针位于目录的结尾是，因为没有文件存在则返回false.
+	closedir()关闭指定目录，接受已经用opendir函数打开的可操作目录句柄作为参数。函数无返回值，运行后将关闭打开的目录。
+	rewinddir()倒回目录句柄，接受已经用opendir函数打开的可操作目录句柄作为参数。将目录指正重置目录到开始处。
+	glob()函数检索指定的目录。该函数最终返回一个包含检索结果的数组。
+	disk_free_space(),disk_total_space()统计磁盘的大小
+	mkdir()函数只需要传入一个目录名即可很容易地建立一个新目录。
+	rmdir(),只能删除一个空目录并且目录必须存在。如果是非空的目录就需要先进入到目录中，使用unlink()函数将目录中的每个文件都删除掉
+	copy()函数可以复制文件
+文件的基本操作
+	resource fopen(string filename,string mode[,bool use_inclue_path[,resource zcontext]]),第一个参数是文件的url,第二个参数需要提供文件模式，文件模式可以告诉操作系统如何处理
+		来自他人或脚本的访问请求，以及一种用来检查你是否有权访问这个特定文件的方法。当在打开文件时有三种选择：
+			打开文件为了只读、只写或者是读和写。
+			如果要写一个文件，可以覆盖所有已有的文件内容，或者需要将新数据追加到文件末尾
+			如果在一个区分二进制文件和纯文本文件的系统上写一个文件，还必须制定采用的方式
+		r 只读方式打开文件，从文件开头开始读
+		r+ 读写方式打开文件，从文件开头开始读写
+		w 只写方式打开文件，从文件开头开始写。如果文件已经存在，将文件指针指向文件头并将文件大小截为零，即删除所有文件已有的内容。如果该文件不存在，函数将创建这个文件。
+		w+ 读写方式打开文件，从文件开头开始读写。如果文件已经存在，将文件指针指向文件头并将文件大小截为零，即删除所有文件已有的内容。如果该文件不存在，函数将创建这个文件
+		x 创建并以写入方式打开，将文件指针指向文件头。如果文件已存在，则fopen()调用失败并返回false,并生成一条E_WARNING级别的错误信息。如果文件不存在则尝试创建，仅能用于本地文件。
+		x+ 创建并以读写方式打开，将文件指针指向文件头。如果文件已存在，则fopen()调用失败并返回false,并生成一条E_WARNING级别的错误信息。如果文件不存在则尝试创建，仅能用于本地文件。
+		a 写入方式打开，将文件指针指向文件末尾。如果该文件已有内容，将从该文件末尾开始追加。如果该文件不存在，函数将创建这个文件。
+		a+ 写入方式打开，将文件指针指向文件末尾。如果该文件已有内容，将从该文件末尾开始追加或者追读。如果该文件不存在，函数将创建这个文件。
+		b 以二进制模式打开文件，用于与其他模式进行连接。
+		t 以文本模式打开，仅在windows系统下的选项，不推荐使用
+	第三个参数，如果资源位于本地文件系统，php会认为可以使用本地路径或者相对路径来访问此资源。如果将这个参设置为1,就会使php考虑配置指令include_path中指定的路径(在php配置该文件中设置).
+	第四个参数，fopen()函数允许文件名称以协议名称开始，并且在一个远程位置打开该文件。通过设置这个参数，还可以支持一些其他的协议。
+	fclose()关闭资源，参数是fopen或者fsockopen()函数打开的遗存的文件指针。目录操作中opendir()函数。使用closedir()将其关闭。
+	int fwrirte(resource handel,string string[,int length])写入文件函数，第一个参数需要提供fopen()函数打开的文件资源，该函数将第二个参数提供的字符串内容输出到由第一个参数指定的资源中。如果给出
+		了参数length,fwrirte()将在写入了length个字符时停止，否则将一直写入，直到到达内容结尾时才停止。如果写入的内容少于length个字节，该函数也会在写完全部内容后停止。返回写入字符数，处错误是返回false.
+	file_put_contents(string filename,string data)相当于调用fopen(),fwrirte(),fclose().
+	string fread(int handel,int length),读取打开的文件,在读取玩length个字节数，或到达EOF时，或(对于网络流)当一个包可用时都会停止读取文件。返回字符串失败返回false。
+	file_get_contents(),将文件读入字符串
+	string fgets(int handel[,int length]),从打开的文件中返回一行,该函数返回length-1个字节，忽略length参数,默认为1024个字符。调用失败返回false.
+	fgetc(),从打开的文件中返回一个字节字符。如果遇到文件结束标志EOF,将返回false值。
+	file(),把文件读入一个数组中，不需要fopen()函数打开文件，数组每个元素对应文件中相应的行，各元素由换行符分割，同时换行符仍福建在每个元素的末尾。
+	readfile(),读取一个文件，并输出到输出缓冲区，并返回读取的字节数。
+	feof(),该函数接受一个打开的文件资源，判断一个文件指针是否位于文件的结束处，如果在文件末尾处，则返回true.
+	如果需要访问远程文件，必须在php的配置文件中激活"allow_url_fopen"选项，http协议对远程文件，只能以"只读"模式打开。ftp协议，如果服务器，对所提供用户开启了"可写"权限。则可以使用个只写或只读模式打开
+		文件，但不能使用可读可写模式。
+	set_time_limit()函数对程序的运行时间加以限制，可以避免由于访问远程主机发生超时错误。
+	int ftell(resource handel),获取资源中文件指针当前位置的偏移量,返回文件指针的当前位置
+	int fseek(resource handel,int offset[,int whence]) 移动文件指针到offset指定的位置的位置，如果没有第三个参数，则位置为从文件开头的offset字节处，whenen可以设置为三个可能的值。
+		SEEK_CUR: 设置指针位置为当前位置加上第二个参数所提供的offset字节。
+		SEEK_END: 设置指针位置为EOF加上offset字节，在这里，offset必须设置为负数。
+		SEEK_SET: 设置指正位置为offset字节处，
+		fseek()函数执行成功，将返回0，失败则返回-1.如果将文件以追加模式"a"或者"a+"打开，写入文件的任何数据额总是会被附加在后面。不会管文件指针的位置。
+	bool rewind(resource handel),移动文件指针到文件的开头。
+	bool flock(int handel,int operation[,int &would]),handel必须是一个已经打开的文件资源，第二个参数operation的可选值有
+		LOCK_SH 取得共享锁定(从文件中读取数据时使用)。
+		LOCK_EX 取得独占锁定(向文件中写入数据时使用)。
+		LOCK_UN 释放锁定(无论共享或独占锁，都用它释放)。
+		LOCK_NB 附加锁定(如果不希望flock()在坐定时堵塞，则应在上述锁定后加上该锁)。
+		如果锁定会堵塞的的话(已经被flock()锁定的文件，再次锁定时，flock()函数会被挂起，这是称为锁定堵塞)，也可以将可选的第三个参数设置为1，则当进行锁定时会阻挡其他进程。
+		fclose()可以释放锁定操作，为了让flock()函数发挥作用，在多有访问文件的程序中必须使用相同的方式锁定文件
+	copy(来源文件,目标文件)unlink(目标文件)删除文件，ftruncate(目标文件,截取长度)将文件截断到指定长度,rename(旧文件名,新文件名)重命名文件或目录
+文件上传
+	客户端上传设置:在form表现中，enctype="multipart/form-data"用来指定表单编码数据方式，让服务器知道要传递一个文件，method="post",还要在form表单中设置一个hidden类型的input框，
+		name为MAX_FILE_SIZE，value值为上传文件的大小(单位字节),但这个值不能超过php的配置文件中upload_max_filesize值的大小
+	服务器设置
+		设置php配置文件中的指令:用于精细地调节php的文件上传功能
+		$_FILES多为数组:用于存储各种与上传文件有关的信息，其他数据还使用$_POST去接收。
+		PHP的文件上传处理函数:用于上传文件的后续处理。
+	php.in中配置项
+		file_uploads 默认值:ON,确定服务器上PHP脚本是否可以接收HTTP文件上传
+		upload_max_filesize 默认值:2M,限制PHP处理上传文件大小的最大值，此值必须小于post_max_size
+		post_max_size 默认值:8M,限制通过POST方法可以接受信息的最大值，此值应当大于配置指令upload_max_file的值，因为除了上传文件之外，还可能传递其他的表单域
+		upload_tmp_dir 默认值:NULL,上传文件存放的临时路径，可以是一个绝对路径。这个目录对于拥有此服务器进程用户必须死可写的。上传的文件在处理之前必须成功传输到服务器，所以必须指定一个位置，
+			可以临时放置这些文件，直到文件移到最终目的地为止。默认值NULL则为操作系统的临时文件夹。
+	$_FILES元素说明
+		$_FILES["myfile"]["name"] 客户端机器文件的原名称,包含扩展名
+		$_FILES["myfile"]["size"] 已上传文件的大小，单位为字节
+		$_FILES["myfile"]["tmp_name"] 文件被上传后，在服务器端存储的临时文件名。这是存储在临时目录(有PHP指令upload_tmp_dir指定)中时所指定的文件名
+		$_FILES["myfile"]["error"] 伴随文件上传时产生的错误信息，有5个可能的值
+			0：表示没有发生任何错误，文件上传成功
+			1: 表示上传文件的大小超出了再PHP配置文件中指令upload_max_filesize选项限制的值
+			2: 表示上传文件大小超出了HTML表单中MAX_FILE_SIZE选项所指定的值
+			3: 表示文件只被部分上载
+			4: 表示没有上传任何文件
+			以及其他一些很少发生的错误
+		$_FILES["myfile"]["type"] 获取从客户端上传文件的MIME类型，MIME类型规定了各种文件格式的类型。每种MIME类型都是由"/"分隔的主类型和子类型组成。	
+		其中myfile为file的input的name属性值
+	is_uploaded_file(string filename)判断指定文件是否通过HTTP POST上传的，如果是则返回true。
+	move_uploaded_file(string filename,string destination) 将上传的文件移动到新位置。此函数会检查filename指定的文件是否是合法的上传文件，如果不合法则返回false.
+	bool in_array(元素,数组)检查元素是否在数组中。
+	list(var1,...,varn)一次性给变量赋值
+	rand(min,max),没有参数默认为0到RAND_MAX质检的伪随机整数
+文件的下载
+	通过header()发送网页的头部信息给浏览器
+		header('Content-Type:image/gif');
+		header('Content-Disposition:attachment;filename="test.gif"');
+		header('Content-Length:3390');
+		然后通过readfile()将文件内容读取出来并直接输出
+23.图片
+	resource imagecreate(int $x_size,int $y_size),新建一个基于调色板的图像
+	resource imagecreatetruecolor(int $x_size,int $y_size) 新建一个真彩色图像，不能用于GIF文件格式
+	imagex(),imagey()输出画布的宽度
+	bool imagedestory(resource $image),销毁图像
+	int imagecolorallocate(resource $image,int $red,int $green, int $blue),设置图像的颜色，该函数返回一个标识符，代表了给定rgb成分组成的颜色，参数是0-255或者0x00-0xFF的十六进制数
+	bool imagegif(resource $image[,string $filename]),以GIF格式将图像输出
+	bool imagejpeg(resource $image[,string $filename[,int $quality]]),参数quality指定图像的品质，0-100，默认为75，
+	bool imagepng(resource $image[,string $filename])
+	bool imagewbmp(resource $image[,string $filename[,int $foreground]])，参数$foreground指定图像的前景颜色，默认颜色值为黑色。
+	function_exists(funname)判断函数是否存在
+	bool imagefill(resource $image,int $x,int $y,int $color) 区域填充
+	bool imagesetpixel(resource $image,int $x,int $y,int $color) 画一个单一像素点
+	bool imageline(resource $image,int $x1,int $y1,int $x2,int $y2,int $color)画一条线段
+	bool imagerectangle(resource $image,int $x1,int $y1,int $x2,int $y2,int $color) 画一个矩形
+	bool imagefilledrectangle(resource $image,int $x1,int $y1,int $x2,int $y2,int $color) 画一个矩形并填充
+	bool imagepolygon(resource $image,array $points,int $num_points,int $color) 画一个多边形
+	bool imagefilledpolygon(resource $image,array $points,int $num_points,int $color) 画一个多边形并填充，points[0] =x0,points[1]=y0,points[2]=x1...
+	bool imageellipse(resource $image,int $cx,int $cy,int $w,int $h,int $color) 画一个椭圆
+	bool imagefilledellipse(resource $image,int $cx,int $cy,int $w,int $h,int $color) 画一个椭圆并填充,($cx,$cy)为坐标中心，$w和$h分别为椭圆的宽和高
+	bool imagearc(resource $image,int $cx,int $cy,int $w,int $h,int $s,int $e,int $color) 画椭圆弧
+	bool imagefilledarc() 画椭圆弧并填充
+	bool imagestring(resource $image,int $font,int $x,int y,string $s,int $color) 水平地画一行字符串
+	bool imagestringup(resource $image,int $font,int $x,int y,string $s,int $color) 垂直地画一行字符串
+	bool imagechar(resource $image,int $font,int $x,int y,char $s,int $color) 水平地画一个字符串
+	bool imagecharup(resource $image,int $font,int $x,int y,char $s,int $color) 垂直地画一个字符串，$font 的值为1,2,3,4,5的内置字体，数字越大尺寸越大
+	array imagettftext(resource $image,float $size,float $angle,int $x,int $y,int $color,string $fontfile,string $text)输出一种与设备无关的trueType字体。
+	resource imagecreatefromjpeg(string $filename) //从png文件或URL新建一图像
+	resource imagecreatefromgif(string $filename) //从gif文件或URL新建一图像
+	array getimagesize(string filename[,array &imageinfo]) 取得图片的大小和类型
+		索引0包含图像宽度的像素值，索引1包含图像高度的像素值，索引2是图像类型的标记:1=GIF,2=JPG,2=PNG,3=SWF等，索引3是文本字符串，内容为'height="yyy" width="xxx"',可直接用于<img>标签
+	iconv("GB2312","UTF-8",string) 将中文转化为utf-8的字符串
+	bool imagecopyresampled(resource dst_images,resource src_image,int dst_x,int dst_y,int src_x,int src_y,int dst_w,int dst_h,int src_w,int src_h)
+		该函数将一幅图像中的一块正方形区域复制到另一个图像中，平滑地插入像素值，成功返回true,失败返回false，
+	bool imagecopy(resource dst_images,resource src_image,int dst_x,int dst_y,int src_x,int src_y,int src_w,int src_h)
+		部分复制，将src_im图像中坐标从src_x,src_y开始，宽度为src_w,高度为src_h的一部分复制到dst_im图像中坐标为dst_x和dst_y的位置上
+	resource imgagerotate(resource src_im,float angle,int bgd_color[,int ignore_transparent])该函数可以将src_im图像用给定的angle角度旋转，bgd_color指定了旋转后没有覆盖到的部分的颜色。旋转的中心
+		是图像的中心，旋转后的图像会按比例缩小以适合目标图像的大小(边缘不会被剪去)。如果ignore_transparent被设为非零值，则透明色会被忽略。
+24.mysql
+	mysql -h 服务器主机地址 -u 用户名 -p用户密码
+		-h:指定所连接的数据库服务器位置，可以是ip地址，也可以是服务器域名。
+		-u:指定连接数据库服务器使用的用户名，例如root为管理员用户具有所有权限
+		-p:连接数据库服务器使用的密码，但-p和其后的参数之间不要有空格。最后是在该参数后直接回车，然后以密文的形式输入密码。
+	GRANT 权限 ON 数据库.数据表 TO 用户名@登录主机 IDENTIFIED BY 密码。添加新用户，或直接操作mysql授权表
+	CREATE DATABASE [IF NOT EXISTS] bookstore; 创建一个名为bookstore的数据库(需要获得数据库CREATE权限)。
+	DROP DATABASE [IF EXISTS] bookstore; 删除一个名为bookstore的数据库(需要获得数据库DROP权限)。
+	SHOW DATABASES; 显示所有已建立的数据库名称列表。
+	USE bookstore; 打开bookstore数据库为当前数据库使用
+	CREATE TABLE [IF NOT EXISTS] book (
+		-> id INT NOT NULL AUTO_INCREMENT,
+		-> bookname UARCHAR<50> NOT NULL DEFAULT '',
+		-> publisher UARCHAR<80> NOT NULL DEFAULT '',
+		-> author UARCHAR<30> NOT NULL DEFAULT '',
+		-> price DOUBLE NOT NULL DEFAULT 0.00,
+		-> detail TEXT,
+		-> publishdate DATE,
+		-> PRIMARY KEY<id>,
+		-> INDEX book_bookname<bookname>,
+		-> )[表类型][表字符集];
+		创建表时,除了需要指定各个字段的属性和索引外,还要指定默认的表类型为MyISAM，以及指定默认创建的表的字符集(character set)为utf8，校对规则(collation)为utf8_general_ci.
+	DESC book; 查看表的详细结构
+	INSERT INTO BOOK<bookname,publisher,authot> VALUES<"WANG","YYY","WQQ">;
+	SELECT id,bookname FROM book; 查询数据记录
+	UPDATE book SET price=1 WHERE id=2; 更改数据表中存在的记录，如果没有WHERE子句，则更新所有的行
+	DELETE FROM book WHERE id=1;删除数据表中的记录，并返回被删除的记录的数目，如果没有WHERE子句则所有的行都被删除，
+	TRUNCATE TABEL,删除数据但不返回被删除的数目
+	创建表示必须指定字段名称、字段类型和字段属性。还需要使用约束(constraint)、索引(index)、主键(primary key)和外键(foreign key)等功能属性。
+mysql数据类型
+	数值型： TINYINT(1字节),SMALLINT(2字节),MEDIUMINT(3字节),INT(4字节),BIGINT(8字节),FLOAT(4或8字节),DOUBLE(8字节),DECIMAL(M,D)以字符串的形式存储，总共占用M+2个字节(自定义)(在整型数据列后加上UNSIGNED属性可以禁止负数)，M(1-255)来指定显示宽度，如INT(5)
+	字符串型：CHAR[(M)] 存储空间：M字节   定长字符串   最大长度为：M字节。
+		VARCHAR[(M)] L+1字节 可变字符串  M字节。
+		TINYBLOD,TINYTEXT  L+1字节 非常小的BLOB(二进行大对象)和文本串 2^8-1字节，BLOB区分大小写，TEXT不区分大小写
+		BLOB,TEXT L+2字节 小BLOB和文本串 2^16-1字节
+		LONGBLOB,LONGTEXT L+4字节 大BLOB和文本串 2^32-1字节
+		MEDIUMBLOB,MEDIUMTEXT L+3字节 中等BLOB和文本串 2^24-1字节
+		ENUM('value1','value2',...) 1或2字节 枚举：可赋予某个枚举成员 65535个成员
+		SET('value1','value2',...) 1,2,3,4或8字节 集合：可赋予多个集合成员 64个成员
+	对于变长表，由于记录大小不同，在其上进行许多删除和更改将会使表中的碎片更多。需要定期运行OPTIMIZE TABLE以保持性能。
+	日期和时间类型：可以用DATE_FORMAT()函数以任意形式显示日期值，
+		DATE 3字节 "YYYY-MM-DD"格式标识的日期值  1000-01-01~9999-12-31
+		TIME 3字节 "hh:mm:ss"格式表示的时间值  -838:59:59~838:59:59
+		DATETIME 8字节 "YYYY-MM-DD hh:mm:ss"格式 
+		TIMESTAMP 4字节 "YYYYMMDDhhmmss"格式标示的时间戳1970-2037年的某个时刻
+		YEAR 1字节 "YYYY"格式的年份值 1901-2155
+	也可以使用整型列类型存储UNIX时间戳，代替日期和时间列类型，
+	NULL值不能进行算术运算，如果对NULL值进行算术运算，其结果还是NULL值
+	类型转换：
+		1+'2' 转化为 1+2; 1+'abs' 转化为 1+0
+		mysql会根据表达式上下文的要求，把字符串和数值自动转换为日期和时间值。 
+	数据字段属性
+		UNSIGNED: 无符号，没有负数。
+		ZEROFILL: 数值之前自动用0补齐不足位数，当给一个字段使用ZEROFILL修饰时，该字段自动应用UNSIGNED属性
+		AUTO_INCREMENT: 自动增量属性
+		NULL、NOT NULL:默认为NULL，即插入值是没有在此字段插入值,默认为NULL，如果指定了NOT NULL，则必须在插入值时在此字段添入值。
+		DEFAULT：设置默认值
+	ALTER TABLE 表名 ACTION; 修改表，action是 ALTER TABLE的从句
+		ALTER TABLE 表名 ADD 字段名 <建表语句>[FIRST|AFTER 列名] 为指定的表添加新列,如果没指定的可选的FIRST或AFTER,则在列尾添加一列,否则在指定列添加新列
+		ALTER TABLE 表名 CHANGE(MODIFY) 列表 <建表语句> 为指定的表修改列类型，CHANGE可以更改类型和列名，而MODIFY只能更改类型
+		ALTER TABLE 旧表名 RENAME AS 新表名 为指定的数据表重新命名
+	DROP TABLE [IF EXISTS] 表名; 删除不再使用的数据表。
+mysql，默认的数据表类型由配置文件里的default-table-type选项指定，通过CREATE TABLE命令穿件一个新数据表示，可以通过ENGINE或TYPE选项决定数据表类型。
+	CREATE TABLE t(i INT) ENGINE = INNODB; 
+	CREATE TABLE t(i INT) TYPE = MYISAM;
+	mysql默认以latin1编码来存储数据，在mysql里面设置数据表的字符集  characcter-set-server =gbk 
+		collation-server = gbk_chinese_ci 设置排序方式
+	CREATE DATABASE IF NOT EXISTS mydb DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;创建数据库时设置编码方式。
+索引：主键索引(PRIMARY KEY),每个数据表中只能有一个主键索引
+	唯一索引(UNIQUE),常规索引(INDEX),全文索引(FULLTEXT)
+	CREATE INDEX ind ON carts(uid,bid); 创建名称为ind的索引为carts表的两列
+	SHOW INDEX FROM carts;生成carts表的索引清单，
+	SROP INDEX ind ON carts; 删除索引
+25操作数据表中的数据记录(DML)
+	INSERT INTO 表名 [(字段1,...,字段n)] VALUES('值1',...,'值n');向数据表中添加数据
+	UPDATE 表名 SET 字段名=表达式[,...] [WHERE 条件] [ORDER BY 字段] [LIMIT 行数](限制可以被更新的行的数目)
+	DELETE FROM 表名 [WHERE 条件] [ORDER BY 字段] [LIMIT 行数]
+	SELECT [ALL|DISTINCT] {*|table.*|[table.]field1[AS alias1][,[table.]field2[AS alias2][,...]]} FROM tableexpression[,...][IN externaldatabase]  [WHERE ..]
+		[GROUP BY...] [HAVING...] [ORDER BY...](后面接字段，并使用DESC或ASC关键字设计字段的排序方式,子查询中不能有ORDER BY子句) 
+		[LIMIT c1,c2](从记录的偏移量c1处开始返回c2行记录);FROM子句后面是包含一个或多个表达式(由逗号分开),
+		其中的表达式可为单一表名称、以保存的查询或由INNER JOIN、LEFT JOIN、RIGHT JOIN得到的复合结果
+		AS子句为字段取别名,DISTINCT 关键字取消重复的数据，它的作用范围是检查整个查询的列表 
+	WHERE 中的操作符，AND(&&),OR(||),XOR,NOT(!),=,<=>,!=(<>),<,<=,>,>=,IS NULL,IS NOT NULL,BETWEEN,NOT BETWEEN,LIKE,NOT LIKE,IN,
+		a BETWEEN b AND c, a IN(b1,b2,...) a等于b1、b2...中的某一个。则为真，
+		LIKE一起使用的模糊通配符：%表示0个或任意多个字符。_表示单个的任意一个字符
+SQL统计函数:
+	COUNT(), 返回满足SELECT语句中指定条件的记录数，
+	SUM(), 通常为数值字段或表达列作统计，返回一列的总和
+	AVG(), 通常为数值字段或表达列做统计，返回一列的平局值
+	MAX(), 可以为数值字段、字符字段或表达列作统计，返回一列中的最大值
+	MIN(), 可以为数值字段、字符字段或表达列作统计，返回一列中的最小值
+	SELECT 函数名(列名1 或*),...函数名(列名n) FROM 表名;  使用统计函数
+26.mysql扩展函数
+	resource mysql_connect([string server[,string username[,string password [,bool new_link[,int client_flgs]]]]]),通常需要前三个参数就行了，主机名，用户名和密码
+	mysql_close() 关闭与mysql服务器的连接
+	mysql_select_db(string bookstore,resource sql); 选定一个默认的数据库
+	mysql_query()将SQL命令用字符串传入,就会在mysql的服务器中执行。
+	mysql_db_query() 函数用来执行SQL命令并明确地给出数据库的名字，最后一个参数是mysql_connect()返回的连接标识号。只有在与同一个mysql服务器建立多条连接的时候才必须给出这个参数
+	出错的时候可用 mysql_errno()和mysql_error()函数来确定。
+	mysql_affected_rows() 查看DML命令修改了多少条记录
+	mysql_insert_id() 在执行完INSERT命令后，可以用该函数查看插入的最后一条新记录的AUTO_INCREMENT值是多少。
+	mysql_num_rows() 从结果集中获得数据记录行的个数
+	mysql_num_fiels() 从结果集中获得数据记录列的个数
+	mysql_fetch_row() 该函数将一条结果记录返回并以一个普通索引数组的形式保存。
+	mysql_fetch_assoc() 该函数将一条结果记录返回并以一个普通关联数组的形式保存。
+	mysql_fetch_array() 该函数可以将结果数据表中的每一行获取为一个关联数组或索引数组，或者同时获取为关联和索引数组。可以通过为该函数传递MYSQL_ASSOC、MYSQL_NUM、MYSQL_BOTH中的一个常量返回不同的
+		数组形态，默认使用MYSQL_BOTH常量将两种数组一起返回。
+	mysql_fetch_object() 该函数将以一个对象的形式返回一条结果记录，它的各个字段需要以对象的方式进行访问。
+	mysql_fetch_result() 函数释放某次查询的结果数据表
+	mysql_num_fiels() 取得结果集中字段的数目
+	mysql_fetch_field() 取得具体字段的信息
+27.数据库抽象层pdo
+	在windows中使用 extension = php_pdo.dll extension = php_pdo_mysql.dll
+	PDO(string dsn[,string usename[,string password[,array driver_options]]]) PDO的构造方法
+		dsn为数据源名 mysql:host=localhost;dbname=testdb mysql为驱动前缀
+	pdo构造方法： 1.将参数嵌入到构造函数中，2，将参数存放在文件中，并在构造函数中引用这个文件3.引用php.ini文件，在php配置文件中把DSN信息赋给名为pdo.dsn.aliasname的配置参数，这里的aliasname是后面提供
+		给构造函数的DSN别名
+		pdo与连接有关的选项,必要时候可以组成数组传递给diver_options中
+		PDO::ATTR_AUTOCOMMIT 确定PDO是否关闭自动提交功能，设置FALSE值时关闭
+		PDO::ATTR_CASE 强制PDO获取的表字段字符的大小写转换，或原样使用列信息
+		PDO::ATTR_ERRMODE 设置错误处理的模式
+		PDO::ATTR_PERSISTENT 确定连接是否为持久连接，默认值为FALSE
+		PDO::ATTR_ORACLE_NULLS 将返回的空字符串转换为SQL的NULL
+		PDO::ATTR_PREFETCH 设置应用程序提前获取的数据大小，以K字节为单位
+		PDO::ATTR_TIMEOUT 设置超时之前等待的时间
+		PDO::ATTR_SERVER_INFO 包含于数据库特有的服务器信息
+		PDO::ATTR_SERVER_VERSION 包含于数据库服务器版本号有关的信息
+		PDO::ATTR_CLIENT_VERSION 包含于数据库客户端版本号有关的信息
+		PDO::ATTR_CONNECTION_STATUS 包含数据库特有的与连接状态有关的信息
+	PDO对象中的成员方法
+		getAttribute() 获取一个"数据库连接对象"属性
+		setAttribute() 为一个"数据库连接对象"设定属性
+		errorCode() 获取错误码
+		errorInfo() 获取错误的信息
+		exec() 处理一条SQL语句，并返回所影响的条目数
+		query() 处理一条SQL语句，并返回一个"PDOStatement"对象。可以通过PDOStatement对象的rowCount()方法获取总行数
+		quote() 为某个SQL中的字符串添加引号，可以防止SQL代码注入
+		lastInsertId() 获取插入到表中的最后一条数据的主键值
+		prepare() 负责准备要执行SQL语句，再使用PDOStatement对象中的execute()方法来执行。
+		getAvailableDrivers() 获取有效的PDO驱动器名称
+		beginTransaction() 开始一个事务，表明回滚起始点
+		commit() 提交一个事务，并执行SQL
+		rollback() 回滚一个事务
+	将PDO_ATTR_ORACLE_NULLS 设置为true会将任何语句中的空字符转换为NULL
+	PDO的错误处理模式，
+		PDO::ERRMOED_SLIENT 默认模式，在错误时不进行任何操作
+		PDO::ERRMODE_WARNING PDO会发出一条PHP传统的E_WARNING消息，可以使用常规的PHP错误处理程序捕获该警告
+		PDO::ERRMODE_EXCEPTION PDO将抛出一个PDOException，并设置其属性，以反映错误代码和错误信息
+	PDOStatement类中的成员方法
+		bindColume() 用来匹配列名和一个指定的变量名，这样每次获取各行记录时，会自动将相应的列值赋值给该变量
+		bindParam(mixed parameter,mixed &var[,int data_type[,int length [,mixed driver_options]]]) 将参数绑定到相应的查询占位符上,parameter是命名参数中的名字作为字符串提供，问号参数是列值占位符的索引偏移量
+			var是提供付给第一个参数所指定占位符的值，data_type可以显示地为当前被绑定的参数设置数据类型
+				PDO::PARAM_BOOL: 代表boolean数据类型
+				PDO::PARAM_NULL: 代表SQL中NULL类型
+				PDO::PARAM_INT: 代表SQL中INTEGER数据类型
+				PDO::PARAM_STR: 代表SQL中CHAR、VARCHAR和其他字符串数据类型
+				PDO::PARAM_LOB: 代表SQL中大对象数据类型
+			length用于指定数据类型的长度，diver_options通过该参数提供任何数据库驱动程序特定的选项
+		bindValue() 将一值绑定到对应的一个参数中
+		closeCursor() 关闭游标，使该声明再次被执行
+		columnCount() 在结果集中返回列的数目
+		errorCode() 获取错误码
+		errorInfo() 获取错误的信息
+		execute() 负责执行一个准备好的预处理查询
+		fetch() 返回结果集的下一行，当到达结果集末尾时返回false
+		fetchAll() 通过一次调用就可以获取结果集中的所有行，并赋给返回的数组
+		fetchColumn() 返回结果集中下一行某个列的值
+		fetchObject() 获取下一行记录并返回它作为一个对象
+		getAttribute() 获取一个声明属性
+		getColumnMeta() 在结果集中返回某一列的属性信息
+		nextRowset() 检索下一行集(结果集)
+		rowCount() 返回执行DQL语句后查询结果的记录行数，或返回执行DML语句后受影响的记录行总数
+		setAttribute() 为一个预处理语句设置属性
+		setFetchMode() 设置获取结果集合的类型
+	PDO中的占位符：
+		命名参数：prepare("INSERT INTO contactInfo(name,address,phone) VALUES(:name,:address,:phone)"); 每个命名参数需要冒号开始
+		问号参数：prepare("INSERT INTO contactInfo(name,address,phone) VALUES(?,?,?)"); 问号参数一定要和字段的位置顺序对应
+	获取结果集数据的方法
+		fetch([int fetch_style[,int cursor_orientation[,int cursor_offset]]]) 返回结果集的下一行
+			fetch_style的参数有：
+				PDO::FETCH_ASSOC: 从结果集中获取以列名为索引的关联数组。
+				PDO::FETCH_NUM: 从结果集中获取一个以列在行中的数值偏移为索引的值数组。
+				PDO::FETCH_BOTH: 这是默认值，包含上面两种数组。
+				PDO::FETCH_OBJ: 从结果集当前行的记录中获取其属性对应各个列名的一个对象
+				PDO::FETCH_BOUND: 使用fetch()返回true,并将获取的列值赋给在bindParm()方法中指定的相应变量。
+				PDO::FETCH_LAZY: 创建关联数组和索引数组，以及包含列属性的一个对象，从而可以在这三种接口中任选一项
+			cursor_orientation用来确定当对象是一个可滚动的游标时应当获取哪一行，cursor_offset表示要获取的行相对于当前游标位置的偏移
+		fetchAll([int fetch_style[,int column_index]]) 一次调用返回结果集中所有行
+			fetch_style，以何种方式引用所获取的列，还可以指定PDO::FETCH_COLUMN值，从结果集中返回一个包含单列的所有值。
+			column_index 当第一个参数中指定PDO::FETCH_COLUMN值时，从结果集中返回通过该参数提供的索引所指定列的所有值。
+		setFetchMode()改变fetch()和fetchAll()方法的默认模式
+28.会话控制
+	会话跟踪的方式:1,使用超链接或者header()函数等重定向的方式，2,使用cookie将用户的状态信息,存放在客户端的计算机中，3,使用session将访问者的状态信息存放在服务其中
+	bool setCookie(string $name[,string $value[,int $expire[,string $path[,string $domain[,bool $secure]]]]]),删除cookie可以通过省略除name以外的参数，或把目标cookie设为已过期
+	数组形态的cookie，setcookie("user[username]","sky");setcookie("user[password]",md5("12345"));然后通过foreach函数遍历cookie
+	session配置选项：
+		session.auto_start 在客户访问任何页面时都自动开启并初始化session,默认禁止(打开这个选项，就不能再会话中存放对象)   默认值:0-100，默认值：0
+		session.cookie_domain 传递会话ID的coolie作用域(默认为空时会根据cookie规范去自动生成主机名)  默认值：none
+		session.cookie_lifetime cookie中session ID在客户机上保存的有效期，0表示延续到浏览器关闭  默认值：0
+		session.cookie_path 传递会话ID的cookie作用路径 默认值：/
+		session.name 会话名称，用在客户端cookie里的会话id标识名， 默认值：PHPSESSID
+		session.save_path 对于files处理器，此值是创建会话数据文件的路径 默认值；/tmp
+		session.use_cookies 是否使用cookie在客户端保存会话ID,1表示允许 默认值： 1-255
+		session.use_trans_sid 是否使用明码在URL中显示SID(会话ID)。(基于URL的会话管理总是比基于cookie的会话管理有更多的风险所以禁用) 默认值：false
+		session.gc_probablity、session.gc_divsior 定义在每次初始会话时，启动垃圾回收程序的概率，这个收集概率计算公式如下：session.gc_probablity/session.gc_divisor 对会话页面访问越频繁，概率就越小。建议值为1/1000~5000， 默认值1/1000
+		session.gc_maxlifetime 超过此参数所指的秒数后，保存的数据将被视为'垃圾'并由垃圾回收程序清理 默认值： 1440(s)
+		session.save_handler 存储和检索与会话关联的处理器名字，可以使用(files,user,sqlite,memcache)中的一个值，默认为文件("files")如果想要使用自定义处理器，可用user  默认值：files
+	bool session_start(void) 创建session,开始一个会话，进行session初始化
+	$_SESSION["username"] = "wang" 注册session变量，赋值为一个用户的名称， 保存在session.save_path属性指定的目录下，用"sess_".id的命名文件中，该文件的内容结构 变量名|类型:长度:值;
+	bool session_destory(void) //销毁和当前session有关的所有资料
+	unset($_SESSION["username"]); 删除在session中注册的用户名变量
+	$_SESSION = array(); 将某个用户在session中注册的变量全部清除
+	session_name() 获取session名称
+29.smarty模板
+	Smarty类中成员属性
+		$template_dir 所有模板文件需要放置的目录。 $smarty->setTemplateDir("./templates/");设置目录 $smarty->addTemplateDir("./templates2");添加新的模板路径 $smarty->getTemplateDir();得到当前模板目录路径的数组
+		$compile_dir smarty所有模板文件都会被存储到这个属性所指定的目录中， $smarty->setCompileDir("./templates_c")设置新的编译目录 $smarty->getCompileDir() 得到当前的编译目录
+		$config_dir 定义用于存放模板特殊配置文件的目录。 $smarty->setConfigDir("./configs/");设置新的配置目录 $smarty->getConfigDir(); 得到当前配置目录路径
+		$plugins_dir 设置smarty寻找所需插件的目录。默认是在SMARTY_DIR目录下的plugins目录 $smarty->setPluginsDir("./template/");$smarty->addPluginsDir("./template/");$smarty->getPluginsDir();
+		$left_delimiter 用于模板中的做结束符变量，默认是"{"，这个默认设置会和模板中css/js冲突，通常需要修改其默认行为
+		$right_delimiter 用于模板中的右结束符变量，默认是"}".
+		$caching 是否缓存模板输出 默认为 Smarty::CACHING_OFF
+		$_cache_dir 存放smarty缓存的所偶遇模板 $smarty-setCacheDir("./cache/"); $smarty-getCacheDir();
+		$cache_lifetime 模板缓存有效时间段的长度(单位：s);
+	void assign(string varname,mixed var) 传递一对名称/数值对到模板中
+	void assign(mixed var) 产地包含名称/数值的关联数组到模板中使用
+	void display(string template[,string cache_id[,string compile_id]]) 获取和显示smarty模板
+	smarty模板中的保留变量
+		Request variables(页面请求变量)， $smarty.get.page(类似于$_GET["page"]),$smarty.post.page,$smarty.cookies.username,$smarty.server.SERVER_NAME,$smarty.env.PATH,$smarty.session.id,$smarty.request.username,
+		$smarty.now|date_format:'%Y-%m-%d %H:%m:%s' 获得时间戳，通过date_format调节显示输出
+		$smarty.const PHP脚本中有系统常量、自定义常量和魔术常量
+		$smarty.capture 可以通过{$smarty.capture}变量捕获内置的{capture}...{/capture}模板输出
+		$smarty.config  {$smarty.config}可以取得配置变量中的变量。{$smarty.config.foo} 是{#foo#}的同义词
+		$smarty.section  {$smarty.section}用来指向{section}循环的属性，里面有一些有用的值，比如.first/.index等
+		$smarty.template  返回经过处理的当前模板名(不包括目录)
+		$smarty.current_dir  返回进过处理的当前模板目录名
+		$smarty.version  返回经过编译的smarty模板版本号
+		$smarty.block.child  返回子模版文本块
+		$smarty.block.parent  返回父模版文本块
+		$smarty.ldelim,$smarty.rdelim 用来打印left-delimiter 和right-delimiter 等同于 {ldelim}、{rdelim}
+	registerPlugin(string modifier,string pulginFunName,string PHPcallback); 动态注册插件，可以用来扩充变量调节器插件
+	{for $var=$start to $end} ...{forelse}...{/for}  循环条件不成立，会走forelse从句
+	{for $var=$start to $end step $step} ...{/for} 设置循环步长
+	{for $var=$start to $end max=$val} ...{/for}  设置最大循环次数
+	{while $var == 0}
+		{$var--}
+	{/while}
+	{function name=menu level=0}<b>{$data}</b><i>{$level}</i>{/function}   {menu data=$val} 函数的声明和调用,level为有默认值的局部变量
+	{foreach $array as $itemvar}...{foreachelse}...{/foreach}  只遍历数组变量$array中的值,foreachelse从句在数组变量无值的时候执行
+	{foreach $array as $key=>$itemvar}   遍历数组变量$array中的值和下标
+	foreach的属性说明： 
+		@index 包含当前数组的下标，开始时为0，
+		@iteration 包含当前循环的迭代，总是以1开始，每迭代一次值自动加1
+		@frist 当foreach循环到第一个是first为真
+		@last 当foreach循环到最后是last为真
+		@show 用在检测foreach循环是否无数据显示，show是个布尔值
+		@total 包含foreach循环的总数，可以用在foreach里面或者后面
+	section函数可以使用的属性
+		name 指定该循环的名称，当需要section循环内输出变量时，必须在变量后加上括号包含着的name变量，为必要参数
+		loop 决定循环次数的变量名称，应当设置为与数组变量同名，为必要参数  类型：数组变量
+		start 确定循环开始执行的索引位置。如果该值为负数，开始位置从数组的尾部算起
+		step 该值决定循环的步长，如果step为负值，那么遍历数组时从后向前遍历
+		max 设置循环最大的执行次数
+		show 决定是否显示该循环
+		比foreach多的变量：index_prev,index_next,rownum
+	{extends file="perent.tpl"} 必须在子模板的第一行，在子模板中通过{block name="title"}{/block}来重写父模板中的同名区域 通过{block name="title" append}{/block}向父模板中添加内容，prepend向父模板中追加内容
+	通过{$smarty.block.child}在父模板中做字幕版中的保留站位符，{$smarty.block.parent}在字幕版中做父模板的保留占位符。
+
+	
+HTTP协议
+1.HTTP方法： get,put,delete,post,head,
+1.http报文：起始行(每行以回车符和换行符组成的终止序列作为结束)，首部字段(每个首部字段包含一个名字和一个值用:分割，首部以空行结束)，主体
+	请求报文的格式：<method> <request-URL> <version>(version格式是 HTTP/<major>.<minor>)
+					<headers>(名字: 值 CRLF)
+					<entity-body>
+	响应报文的格式：<version> <status> <reason-phrase>
+					<headers>
+					<entity-body>
+	状态码： 整体范围  已定义范围  分类
+			100-199 	100-101 	信息提示  100.continue 101.switching protocols 
+			200-199 	200-206 	成功	200.ok 201.created 202.accepted 
+			300-399 	300-305 	重定向  301.multiple choices 
+			400-499 	400-415 	客户端错误 400.bad request 403.forbidden 404.not found 405.method not allowed 408.request timeout
+			500-599 	500-505 	服务器错误 500 internal server error 501 not implemented 502 bad gateway
+	通用信息首部
+		Connection 允许客户端和服务器指定与请求/响应连接有关的选项
+		Date   提供日期和时间标志
+		MIME-Version 给出了发送端使用的MIME版本
+		Tranfer-Encoding 对报文采取的编码方式
+		Update  给出了发送端可能想要升级使用的新版本或协议
+		Via  显示了报文经过的中间节点(代理、网关)
+	通用缓存首部
+		Cache-Control 用于随报文传送缓存指示
+		Pragma  另一种随报文传送指示的方式，但不专用于缓存
+	请求首部
+		Client-IP 提供了运行客户端的机器IP地址
+		From   提供了客户端用户的E-mail地址
+		Host   给出了接受请求的服务器的主机名和端口号
+		Referer 提供了包含当前请求URI的文档和URL
+		UA-OS  提供了运行在可短机器上的操作系统名称及版本 
+		User-Agent 将发起请求的应用程序名称告知服务器
+	Accept首部
+		Accept 告诉服务器能够发送哪些媒体类型
+		Accept-Charset 告诉服务器能够发送哪些字符集
+		Accept-Encoding 告诉服务器能都发送哪些编码方式
+		Accept-Language 告诉服务器能够发送哪些语言
+		TE 告诉服务器可以使用哪些扩展传输编码
+	条件请求首部
+		Expect  允许客户端列出某请求所要求的服务器行为
+		If-Match 如果实体标记与文档当前的实体标记相匹配，就获取这份文档
+		If-Modified-Since  除非在某个指定的日期之后资源被修改过，否则就限制这个请求
+		If-None-Math 如果提供的实体标记与当前文档的实体标记不相符，就获取文档
+		If-Range 允许对文档的某个范围进行条件请求
+		If-Unmodified-Since 除非在某个指定的日期之后资源没有被修改过，否则就限制这个请求
+		Range 如果服务器支持范围请求，就请求资源的指定范围
+	安全请求首部
+		Authorization  包含了客户端提供给服务器，以便对其自身进行认证的数据
+		Cookie  客户端用它向服务器传送一个令牌
+		Cookie2  用来说明请求端支持的cookie版本
+	代理请求首部
+		Max-Forward 在通往源端服务器的路径上，将请求转发给其他代理或网关的最大次数
+		Proxy-Authorization  与Authorization首部相同，但这个首部是在与代理进行认证时使用的
+		Proxy-Connection 与Connection首部相同，但这个首部是在与代理建立连接时使用的
+	响应首部
+		Age   (从最初创建开始)响应持续时间
+		Public 服务器为其资源支持的请求方法列表
+		Retry-After 如果资源不可用的话，在此日期或时间重试
+		Server  服务器应用程序软件的名称和版本
+		Title  对HTML文档来说，就是HTML文档的源端给出的标题
+		Warning  比原因短语中更详细的警告报文
+	安全响应首部
+		Proxy-Authenticate  来自代理对客户端的质询列表
+		Set-Cookie  在客户端设置令牌
+		Set-Cookie2  版本
+		WWW-Authenticate  来自服务器对客户端的质询列表
+	实体首部
+		Allow 列出了可以对此吃提执行的请求方法
+		Location 告知客户端实际上位于何处，用于将接受端定向到资源的
+	内容首部
+		Content-Base  解析主体中的相对URL时使用的基础URL
+		Content-Encoding 对主体执行的任意编码方法
+		Connent-Language 理解主体时最适宜使用的自然语言
+		Content-Length 主体的长度或尺寸
+		Content-Location 资源实际所处的位置
+		Connent-MD5  主体的MD5校验和
+		Content-Range 在整个资源中此实体表示的字节范围
+		Content-Type 这个主体的对象类型
+	实体缓存首部
+		ETag 与此实体相关的实体标记
+		Expires 实体不再有效，要从原始的源端字词获取此实体的日期和时间
+		Last-Modified 这个实体最后一次被修改的时间
+3.url通用格式 <scheme>:<user>:<password>@<host>:<port>/<path>;<params>?<query>#<frag>
+4.持久连接 keep-alive,persistent
+	keep-alive:timeout=20,max=5(timeout 服务器希望将谅解保持在活跃状态的是时间，max服务器希望为多少个事务保持此连接的活跃状态)，需要客户端发送Connection:Keep-Alive请求来激活keep-alive连接
+	HTTP/1.1假定所有的连接都是持久的必须向报文显式地添加一个Connection:close,

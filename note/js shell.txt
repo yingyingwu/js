@@ -1,0 +1,12 @@
+
+     js shell 操作指令以及要点
+1、 print(z.toFixed(2)); //格式化输出
+2、 quit() ;退出js shell
+3、 putstr(),var name = readline();//读取输入
+4、 read();读取文件，返回文件内容;
+
+
+
+
+
+

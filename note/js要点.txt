@@ -1,0 +1,137 @@
+css要点:
+1.ios下可以滑动遮罩层下面的文档，通过给下面的文档增加overflow:hidden;属性来阻止滑动。
+2.ios的滑动可以通过-webkit-overflow-scrolling:touch来减轻页面的卡顿。
+3.<meta name = "format-detection" content = "telephone=no"> 禁止苹果将像手机号码的数字转化为A标签
+4.行内元素可以继承块元素，但反之不允许。
+
+
+
+
+
+
+
+
+
+
+
+
+
+js要点:
+1、标记为 defer 的<script>元素是在 onload 事件句柄处理之前被调用。
+2、递归为了能够安全地在浏览器中运行，应当改用迭代，制表，或两者兼而有之。递归的栈溢出错误能被try catch 捕获。
+3、正则表达式中的贪婪量词*    懒惰（又名非贪婪）量词*? 均表示匹配零次或多次。
+4.更具体的[^"\rn]*取代过于宽泛的.*?
+5.可以通过将一段长时间代码用setTimeout分割成多次运行的代码，可每次指定时间内批量处理任务。
+6.web Worker:同域限制：子线程加载的脚本文件，必须与主线程的脚本文件在同一个域。
+DOM限制：子线程无法读限网页的DOM对象，即document、window、parent这些对象，子线程都无法得到。（但是，navigator对象和location对象可以获得。）
+脚本限制：子线程无法读取网页的全局变量和函数，也不能执行alert和confirm方法，不过可以执行setInterval和setTimeout，以及使用XMLHttpRequest对象发出AJAX请求。
+文件限制：子线程无法读取本地文件，即子线程无法打开本机的文件系统（file://），它所加载的脚本，必须来自网络。
+var worker = new Worker("脚本文件");
+worker.postMessage('hello world');//启动子线程，等待主线程调用postMessage方法
+self.addEventListener('message', function(e) {
+    self.postMessage('You said: ' + e.data);
+}, false);//子线程的事件监听，监听message事件；
+// File: main.js
+worker.addEventListener('message', function(e) {
+    console.log(e.data);
+}, false);//主线程的事件监听
+
+//主线程的错误处理，主线程可以监听子线程是否发生错误
+worker.onerror(function(e) {
+    console.log(e);
+});
+// or
+worker.addEventListener('error', function(e) {
+    console.log(e);
+}, false);
+
+//主线程关闭子线程
+worker.terminate();
+//子线程内部关闭自身
+self.close();
+
+Transferable Objects:主线程直接把二进制数据转移给子线程， postMessage方法的最后一个参数必须是一个数组，用来指定前面发送的哪些值可以被转移给子线程。
+
+worker.postMessage(arrayBuffer, [arrayBuffer]);
+
+7.快速排序
+function quickSort(arr){
+    if(arr.length ==0){
+        return [];
+    }
+    
+    var left = [],
+        right = [],
+        pivot = arr[0];
+    for(var i=1; i< arr.length; i++){
+
+        if(arr[i] < pivot){
+            left.push(arr[i]);
+        }else{
+            right.push(arr[i]);
+        }
+
+
+    }
+    return quickSort(left).concat(pivot,quickSort(right));
+
+}
+
+8.目前，Data URI scheme支持的类型有：
+data:,文本数据
+data:text/plain,文本数据
+data:text/html,HTML代码
+data:text/html;base64,base64编码的HTML代码
+data:text/css,CSS代码
+data:text/css;base64,base64编码的CSS代码
+data:text/javascript,Javascript代码
+data:text/javascript;base64,base64编码的Javascript代码
+data:image/gif;base64,base64编码的gif图片数据
+data:image/png;base64,base64编码的png图片数据
+data:image/jpeg;base64,base64编码的jpeg图片数据
+data:image/x-icon;base64,base64编码的icon图片数据
+　　我们把图像文件的内容直接写在了HTML 文件中，好处是：节省了一个HTTP 请求。坏处：浏览器不会缓存这种图像。
+9.函数最后参数是布尔值以及处理
+function fun (){
+    var args = [].slice.call(arguments)
+    var flag = typeof args[args.length -1] == "boolean" ? args.poop() : true;
+
+}
+10.正则
+    肯定顺序环视(?=) 子表达式能够匹配右侧文本
+    否定顺序环视(?!) 子表达式不能够匹配右侧文本 
+    肯定逆序环视(?<=) 子表达式能够匹配左侧文本
+    否定逆序环视(?=!) 子表达式不能匹配左侧文本
+    非捕获正则(?:)
+    贪婪量词(匹配优先量词)：?*+{n,}{n,m}{n}
+    惰性量词(忽略优先量词)：?? *? +? {n,}? {n,m}? {n}?
+    支配量词(占有优先量词)：?+ *+ ++ {n,}+ {n,m}+ {n}+
+匹配规则：
+    1.优先选择最左端的匹配结果
+    2.标准的配置量词（*+?{m,n}）是匹配优先的。
+DFA引擎会进行"最左最长"的匹配
+正则优化方法：
+    1.避免重新编译、使用非捕获型括号、不滥用括号、不滥用字符组、使用起始锚点、从量词中提取必须的元素、提取多选结构开头必须的元素、将锚点独立出来。
+11.判断null
+	var a = null;
+	(!a $$ typeof a === "object"); // true;
+12.Object.is()
+if (!Object.is) {
+	Object.is = function(v1, v2) {
+	// 判断是否是-0
+	if (v1 === 0 && v2 === 0) {
+		return 1 / v1 === 1 / v2;
+	}
+	// 判断是否是NaN
+	if (v1 !== v1) {
+		return v2 !== v2;
+	}
+	// 其他情况
+	return v1 === v2;
+	};
+}
+13.对数组可以通过a.slice(),创造一个数组a的副本;
+12. &|~^ 按位与、或、非、异或
+	~x 相当于取 -(x+1),它先执行ToInt32然后反转字位;
+	~~x 可以截取数字。
+13. 强制类型转化，优先转化级别：数字、字符串

@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>设计模式</title>
+	</head>
+	<body>
+	</body>
+	<script src="./lib/underscore.js"></script>
+	<script src="./lib/jasmine.js"></script>
+	<script type="text/javascript">
+		//1.私有属性
+		function Pat() {
+			var private = "a";
+			this.get = function(){
+				return private;
+			}
+		}
+		
+		Pat.prototype = (function(){
+			var private = "pro";
+			return {
+				getP :function(){
+					return private;
+				},
+				getPat: function(){
+					console.log(this.get());
+				}
+			}
+		})();
+
+		//2.迭代器模式
+		var agg = (function(){
+			var index =0,
+				data = [0,1,2,3,4],
+				len = data.length;
+
+			return {
+				next : function(){
+					var element;
+					if(!this.hasNext()){
+						return null;
+					}
+
+					element = data[++index];
+					return element;
+				},
+				hasNext: function(){
+					return index < len;
+				},
+				reWind: function(){
+					index = 0;
+				},
+				current: function(){
+					return data[index];
+				}
+
+			}
+		})()
+
+		//3.装饰者模式
+		function Sale(price){
+			this.price = price || 100;
+		}
+		Sale.prototype.getPrice = function(){
+			return this.price;
+		};
+		Sale.decorators = {};
+		Sale.decorators.fedtax ={
+			getPrice : function(){
+				var price = this.uber.getPrice();
+				price += price *5 /100;
+				return price;
+			}
+		}
+
+		Sale.decorators.quebec = {
+			getPrice: function(){
+				var price = this.uber.getPrice();
+				price += price *7.5 /100;
+				return price;
+			}
+
+		}
+		Sale.decorators.money ={
+			getPrice: function(){
+				return "$" +this.uber.getPrice().toFixed(2);
+			}
+		}
+		Sale.decorators.cdn ={
+			getPrice: function(){
+				return "CDN$" +this.uber.getPrice().toFixed(2);
+			}
+		}
+
+		Sale.prototype.decorate = function(decorator){
+			var F = function(){},
+				overrides = this.constructor.decorators[decorator],
+				i,newobj;
+			F.prototype =this;
+			newobj = new F();
+			newobj.uber = F.prototype;
+			for(i in overrides){
+				if(overrides.hasOwnProperty(i)){
+					newobj[i] = overrides[i];
+				}
+			}
+			return newobj;
+		}
+		var s = new Sale();
+		var sale = s.decorate("fedtax");
+		s = s.decorate("fedtax");
+
+		//为类添加方法
+		Function.prototype.method = function(name,fn){
+			this.prototype[name] = fn;
+			return this;
+		}
+
+		//interface
+		var Interface = function(name,methods){
+			if(arguments.length != 2){
+				throw new Error("Interface constructor call with"+arguments.length+"arguments,but expeted exactly 2.");
+			}
+
+			this.name = name;
+			this.methods = [];
+			for(var i=0, len=methods.length; i<len; i++){
+				if(typeof methods[i] !== "string"){
+					throw new Error("Interface constructor expetes methods names to be passed in as a string.");
+				}
+				this.methods.push(methods[i]);
+			}
+		}
+
+		Interface.ensureImplements = function(object){
+			if(arguments.length<2){
+				throw new Error("Function Interface.ensureImplements called with"+arguments.length+
+					"arguments,but expeted at least 2.");
+			}
+			for(var i=1, len=arguments.length;i<len;i++){
+				var interface = arguments[i];
+				if(interface.constructor !== Interface){
+					throw new Error("Function Interface.ensureImplements expetes arguments two and above to be instances of Interface.");
+				}
+				for (var j=0,methodsLen = interface.methods.length; j<methodsLen;j++){
+					var method = interface.methods[j];
+					if(!object[method] ||typeof object[method] !=='function'){
+						throw new Error("Function Interface.ensureImplements:object does not implement the "+interface.name+"interface.method"+method+"was not found.");
+					}
+				}
+			}
+		}
+
+		//extend 继承函数
+		function extend(subClass,superClass){
+			var F = function(){};
+			F.prototype = superClass.prototype;
+			subClass.prototype = new F();
+			subClass.prototype.constructor = subClass;
+
+			subClass.superClass = superClass.prototype;
+			if(superClass.prototype.constructor == Object.prototype.constructor){
+				superClass.prototype.constructor = superClass;
+			}
+		}
+
+		function Author(name,books){
+			Author.superClass.constructor.call(this,name);
+			this.books = books;
+		}
+		function Person(name){
+			this.name = name;
+		}
+		extend(Author,Person);
+		var author = new Author("wang","shu");
+
+		function clone(object){
+			var F = function(){};
+			F.prototype = object;
+			return new F;
+		}
+
+		//Mixin多亲继承 配合argument称为掺元类
+		function Mixin (){};
+		Mixin.prototype = {
+			method: function(){
+				console.log(this);
+			}
+		};
+		function argument (receivingClass,givingClass){
+			if(arguments[2]){ //give certain method
+				for(var i=2;i<arguments.length;i++){
+					receivingClass.prototype[arguments[i]]=givingClass.prototype[arguments[i]];
+				}
+			}else{ //give all method
+				for(var methodName in givingClass.prototype){
+					if(!receivingClass.prototype[methodName]){
+						receivingClass.prototype[methodName]=givingClass.prototype[methodName];
+					}
+				}
+			}
+			
+		}
+
+		argument(Person,Mixin);
+
+
+		//singleton 单体模式
+
+		//惰性单体模式
+		var singleton = (function(){
+			var uniqueInstance;
+			function constructor(){
+				var privateAttribute = null;
+				function privateMethod(){}
+				return{
+					publicMethod: function(){}
+				}
+			}
+			return {
+				getInstance: function(){
+					if(!uniqueInstance){
+						uniqueInstance = constructor();
+					}
+					return uniqueInstance;
+				}
+			}
+		})();
+
+		//分支技术
+		var singletonBranch = (function(someCondition){
+			var objectA = {};
+			var objectB = {};
+
+			return someCondition ? objectA : objectB;
+		})(true);
+
+		//工厂模式
+		//bicycleshop class (abstract)
+		var Bicycle = new Interface('Bicycle',['assemble','wash','ride','repair']);
+		var BicycleShop = function (){};
+		BicycleShop.prototype = {
+			sellBicycle: function(model){
+				var bicycle = this.createBicycle(model);
+
+				bicycle.assemble();
+				bicycle.wash();
+				return bicycle
+			},
+			createBicycle: function(){
+				throw new Error("unsupport operation on an abstract class.");
+			}
+		}
+		var AcmeBicycleShop = function(){};
+		extend(AcmeBicycleShop,BicycleShop);
+		AcmeBicycleShop.prototype.sellBicycle=function(model){
+			var bicycle;
+			switch(model){
+
+			}
+
+			Interface.ensureImplements(bicycle,Bicycle);
+		}
+
+		//桥接模式
+		var Class1 = function (a,b){
+			this.a = a;
+			this.b = b;
+		}
+		var Class2 = function(d){
+			this.d = d;
+		}
+		var BridgeClass = function(a,b,c){
+			this.one = new Class1(a,b);
+			this.two = new Class2(c);
+		}
+
+		//组合模式
+		//门面模式
+		//适配器模式
+		//享元模式
+		//接口模式
+		//代理模式
+		//观察者模式
+		function Publisher(){
+			this.subscribers = [];
+		}
+		Publisher.prototype.deliver = function(data){
+			this.subscribers.forEach(function(fn){
+				fn(data);
+			});
+			return this;
+		}
+		Function.prototype.subscribe = function(publisher){
+			var that = this;
+			var alreadyExits = publisher.subscribers.some(function(el){
+				return el === that;
+			});
+
+			if(!alreadyExits){
+				publisher.subscribers.push(this);
+			}
+			return this;
+		}
+		Function.prototype.unsubscribe = function(publisher){
+			var that = this;
+			publisher.subscribers = publisher.subscribers.filter(function(el){
+				return el !== that;
+			});
+			return this;
+		}
+
+		var publish = new Publisher();
+		function sole(a){
+			console.log(a);
+		}
+		sole.subscribe(publish);
+		publish.deliver("aaaaa");
+
+		//命令模式
+		//职责链模式
+	</script>
+	
+	
+</html>
